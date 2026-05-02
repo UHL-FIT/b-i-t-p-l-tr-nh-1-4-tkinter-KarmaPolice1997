@@ -1,19 +1,33 @@
 import tkinter as tk
+from datetime import datetime
+from tkinter import messagebox
+
+def xu_li_du_lieu():
+    mssv = o_nhap_ma_sv.get()
+    ho_ten = o_nhap_ho_ten.get()
+    
+    thoi_gian = datetime.now().strftime("%d-%m-%Y  %H:%M:%S")
+
+    print(f"[{thoi_gian}] | Dữ liệu nhận được: MSSV: {mssv} - Họ tên: {ho_ten}")
+    
+    if not mssv.isdigit():
+        messagebox.showerror("Lỗi", "Mã sinh viên phải là số")
+        return 0
+
+    if ho_ten != "":
+        nhan_ket_qua.config(text=f"Chào sinh viên: {ho_ten} ({mssv})", fg="blue")
+    else:
+        messagebox.showerror("Lỗi", "Vui lòng không để trống thông tin!")
+        return 0
+
+
+def xoa_input():
+    o_nhap_ho_ten.delete(0, tk.END)
+    o_nhap_ma_sv.delete(0, tk.END)
 
 root = tk.Tk()
-# root.config(bg="#f8f9fa")
 root.title("Quản lí sinh viên - UHL")
-root.geometry("400x250")
-
-# # Tieu de di cung voi phong chu va mau
-# nhan_truong = tk.Label(
-#     root,
-#     text="TRƯỜNG ĐẠI HỌC HẠ LONG",
-#     font="white",
-#     bg="#0056b3"
-# )
-# nhan_truong.pack(fill="x", pady=10)
-
+root.geometry("400x350")
 root.columnconfigure(1, weight=1)
 
 nhap_ma_sv = tk.Label(
@@ -28,43 +42,43 @@ nhap_ho_ten = tk.Label(
 )
 o_nhap_ho_ten = tk.Entry(root)
 
-nhap_ma_sv.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-o_nhap_ma_sv.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+nhap_ma_sv.grid(
+    row=0, column=0, padx=10, pady=10, sticky="w"
+    )
+o_nhap_ma_sv.grid(
+    row=0, column=1, padx=10, pady=10, sticky="ew"
+    )
 
-nhap_ho_ten.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-o_nhap_ho_ten.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
+nhap_ho_ten.grid(
+    row=1, column=0, padx=10, pady=10, sticky="w"
+    )
+o_nhap_ho_ten.grid(
+    row=1, column=1, padx=10, pady=10, sticky="ew"
+    )
 
+nut_xac_nhan = tk.Button(
+    root, 
+    text="Xác nhận điểm danh", 
+    command=lambda: (xu_li_du_lieu(), xoa_input())
+    )
+nut_xac_nhan.grid(
+    row=2, 
+    column=0, 
+    columnspan=2, 
+    pady=10
+    )
 
+nhan_ket_qua = tk.Label(
+    root,
+    text="Xác nhận điểm danh",
+    font=("Arial", 10, "italic")
+)
 
-# nhan_khoa = tk.Label(
-#     root,
-#     text="Khoa: Khoa học máy tính",
-#     font="Arial",
-#     fg="#008000"
-# )
-# nhan_khoa.pack(pady=5)
-
-# # Hien thi ho ten
-# nhan_ten = tk.Label(root, text="Họ tên: Đào Đức Phúc", font=("Arial", 12))
-# nhan_ten.pack(pady=5)
-
-# # Hien thi MSSV cung voi mau do
-# nhan_msv = tk.Label(root, text="MSSV: 24DH080018", font=("Arial", 12), fg="red")
-# nhan_msv.pack(pady=5)
-
-# # Tao nut bam de thoat 
-# nut_thoat = tk.Button(
-#     root,
-#     text="Đóng ứng dụng",
-#     command=root.destroy,
-#     bg="#dc3545",
-#     fg="white",
-#     width=200,
-#     height=200,
-# )
-# nut_thoat.pack(pady=20)
-
-# nhan_chao = tk.Label(root, text="Chào mừng sinh viên Đại học Hạ Long!")
-# nhan_chao.pack(pady=50)
+nhan_ket_qua.grid(
+    row=3,
+    column=0,
+    columnspan=2,
+    pady=20
+)
 
 root.mainloop()
